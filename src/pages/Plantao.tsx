@@ -1,33 +1,36 @@
 import React, {useState, useEffect} from 'react';
 import { View, FlatList, Image, Text, StyleSheet } from 'react-native';
 
-interface Farmacia {
+interface Plantao {
     id: string;
     name: string;
-    urllogo: string;
     phone: string;
+    datainicio: string;
+    datafim: string;
+    farmacia: object;
+    urllogo: object;
 }
 
 const Main: React.FC =() => {
-    const [farmacias, setFarmacias ] = useState<Farmacia[]>([]);
+    const [plantao, setPlantao ] = useState<Plantao[]>([]);
 
     useEffect(() => {
-        fetch('https://api.lopscorp.com/farmacias').then(response => {
+        fetch('https://api.lopscorp.com/plantao').then(response => {
             response.json().then(data => {
-                setFarmacias(data);
+                setPlantao(data);
             })
         })
     }, []);
     return (
         <FlatList
             contentContainerStyle={{padding: 24}}
-            data={farmacias}
-            keyExtractor={farmacia => farmacia.name}
-            renderItem={({ item: farmacia }) => (
+            data={plantao}
+            keyExtractor={plantao => plantao.id}
+            renderItem={({ item: plantao }) => (
                 <View style={styles.member}>
-                    <Image style={styles.image} source={{uri: farmacia.urllogo }} />
-                    <Text style={styles.name}>{ farmacia.name }</Text>
-                    <Text>{ farmacia.phone }</Text>
+                    <Image style={styles.image} source={{uri: plantao.farmacia.urllogo }} />
+                    <Text style={styles.name}>{ plantao.datainicio }</Text>
+                    <Text>{ plantao.datafim }</Text>
                 </View>
             )}
         />
@@ -41,9 +44,8 @@ const styles = StyleSheet.create({
         marginBottom: 20
     },
     image: {
-        width: 48,
-        height: 48,
-        borderRadius: 24,
+        width: 100,
+        height: 100,
         marginRight: 16,
     },
     name: {
