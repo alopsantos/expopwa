@@ -8,6 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@expo/package-manager": "^0.0.30",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/bottom-tabs": "^5.7.3",
     "@react-navigation/native": "^5.7.2",
@@ -29,7 +30,7 @@
     "@types/react-native": "~0.62.13",
     "typescript": "~3.9.5"
   },
-  "web":{
+  "web": {
     "themeColor": "#6633cc"
   },
   "private": true

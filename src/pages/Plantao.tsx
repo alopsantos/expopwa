@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, FlatList, Image, Text, StyleSheet } from 'react-native';
+import { View, FlatList, Image, Text, StyleSheet, StatusBar, SafeAreaView } from 'react-native';
 
 interface Plantao {
     id: string;
@@ -22,6 +22,7 @@ const Main: React.FC =() => {
         })
     }, []);
     return (
+        <SafeAreaView style={styles.container}>
         <FlatList
             contentContainerStyle={{padding: 24}}
             data={plantao}
@@ -34,10 +35,15 @@ const Main: React.FC =() => {
                 </View>
             )}
         />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+      },
     member: {
         flexDirection: 'row',
         alignItems: 'center',

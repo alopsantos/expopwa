@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { View, FlatList, Image, Text, StyleSheet } from 'react-native';
+import { View, FlatList, Image, Text, StyleSheet, SafeAreaView, StatusBar } from 'react-native';
 
 interface Farmacia {
     id: string;
@@ -8,7 +8,7 @@ interface Farmacia {
     phone: string;
 }
 
-const Main: React.FC =() => {
+const Farmacias: React.FC =() => {
     const [farmacias, setFarmacias ] = useState<Farmacia[]>([]);
 
     useEffect(() => {
@@ -19,10 +19,11 @@ const Main: React.FC =() => {
         })
     }, []);
     return (
+        <SafeAreaView>
         <FlatList
             contentContainerStyle={{padding: 24}}
             data={farmacias}
-            keyExtractor={farmacia => farmacia.name}
+            keyExtractor={farmacia => farmacia.id}
             renderItem={({ item: farmacia }) => (
                 <View style={styles.member}>
                     <Image style={styles.image} source={{uri: farmacia.urllogo }} />
@@ -31,10 +32,15 @@ const Main: React.FC =() => {
                 </View>
             )}
         />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        marginTop: StatusBar.currentHeight || 0,
+      },
     member: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -55,4 +61,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default Main;
+export default Farmacias;

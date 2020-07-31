@@ -1,10 +1,11 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons, MaterialIcons, Entypo } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 
-import Main from './pages/Main';
-import Camera from './pages/Camera';
+
+import Farmacias from './pages/Farmacias';
+import Plantoes from './pages/Plantoes';
 import Plantao from './pages/Plantao';
 
 const Tab = createBottomTabNavigator();
@@ -13,9 +14,9 @@ export default function Routes() {
   return (
     <NavigationContainer>
       <Tab.Navigator>
-        <Tab.Screen name="Plantão" options={{ tabBarIcon: ({color}) => <Feather name="home" size={20} color={color} /> }} component={Plantao} />
-        <Tab.Screen name="Farmacias" options={{ tabBarIcon: ({color}) => <Feather name="home" size={20} color={color} /> }} component={Main} />
-        <Tab.Screen name="Camera" options={{ tabBarIcon: ({color}) => <Feather name="camera" size={20} color={color} /> }} component={Camera} />
+        <Tab.Screen name="Plantão" options={{ tabBarIcon: ({color}) => <MaterialIcons name="notifications-active" size={24} color={color} /> }} component={Plantao} />
+        <Tab.Screen name="Plantoes" options={{ tabBarIcon: ({color}) => <Entypo name="notification" size={20} color={color} /> }} component={Plantoes} />
+        <Tab.Screen name="Farmacias" options={{ tabBarIcon: ({color}) => <MaterialCommunityIcons name="pharmacy" size={24} color={color} />}} component={Farmacias} />
       </Tab.Navigator>
     </NavigationContainer>
   );
