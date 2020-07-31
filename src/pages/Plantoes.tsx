@@ -1,5 +1,14 @@
-import React, {useEffect, useState} from 'react';
-import { Text, SafeAreaView, StatusBar, StyleSheet, FlatList, Image, View } from 'react-native';
+import React, { useEffect, useState } from "react";
+import {
+  Text,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  FlatList,
+  Image,
+  View,
+  ScrollView,
+} from "react-native";
 
 interface Plantao {
   id: string;
@@ -12,58 +21,69 @@ interface Plantao {
 }
 
 const Plantoes: React.FC = () => {
-  const [plantao, setPlantao ] = useState<Plantao[]>([]);
+  const [plantao, setPlantao] = useState<Plantao[]>([]);
 
-    useEffect(() => {
-        fetch('https://api.lopscorp.com/plantoes').then(response => {
-            response.json().then(data => {
-                setPlantao(data);
-            })
-        })
-    }, []);
-    return (
-        <SafeAreaView style={styles.container}>
+  useEffect(() => {
+    fetch("https://api.lopscorp.com/plantoes").then((response) => {
+      response.json().then((data) => {
+        setPlantao(data);
+      });
+    });
+  }, []);
+  return (
+    <ScrollView>
+      <SafeAreaView style={styles.container}>
         <FlatList
-            contentContainerStyle={{padding: 24}}
-            data={plantao}
-            keyExtractor={plantao => plantao.id}
-            renderItem={({ item: plantao }) => (
-              <>
-                <View style={styles.member}>
-                    <Image style={styles.image} source={{uri: plantao.farmacia.urllogo }} />
-                </View>
+          contentContainerStyle={{ padding: 24 }}
+          data={plantao}
+          keyExtractor={(plantao) => plantao.id}
+          renderItem={({ item: plantao }) => (
+            <>
+              <View style={styles.member}>
+                <Image
+                  style={styles.image}
+                  source={{ uri: plantao.farmacia.urllogo }}
+                />
                 <View>
-                  <Text style={styles.name}>{ plantao.datainicio }</Text>
-                    <Text>{ plantao.datafim }</Text>
+                  <Text style={styles.name}>{plantao.farmacia.name}</Text>
+                  <Text>{plantao.farmacia.address[2]}</Text>
+                  <Text>
+                    Incio:{" "}
+                    {new Date(plantao.datainicio).toLocaleDateString("pt-br")}
+                  </Text>
+                  <Text>
+                    Fim: {new Date(plantao.datafim).toLocaleDateString("pt-br")}
+                  </Text>
                 </View>
-              </>
-            )}
+              </View>
+            </>
+          )}
         />
-        </SafeAreaView>
-    );
+      </SafeAreaView>
+    </ScrollView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-      flex: 1,
-      marginTop: StatusBar.currentHeight || 0,
-    },
+    flex: 1,
+    marginTop: StatusBar.currentHeight || 0,
+  },
   member: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 20
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 20,
   },
   image: {
-      width: 100,
-      height: 100,
-      marginRight: 16,
+    width: 100,
+    height: 100,
+    marginRight: 16,
+    borderRadius: 8,
   },
   name: {
-      color: 'orange',
-      fontSize: 14,
-      display: 'flex',
-      flex: 1,
-  }
-
-})
+    color: "#4b5c6b",
+    fontSize: 24,
+    marginBottom: 8,
+  },
+});
 export default Plantoes;
