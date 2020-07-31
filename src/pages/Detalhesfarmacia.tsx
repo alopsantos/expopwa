@@ -8,10 +8,7 @@ import {
   SafeAreaView,
   StatusBar,
   ScrollView,
-  Button,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Detalhesfarmacia from '../pages/Detalhesfarmacia';
 
 interface Farmacia {
   id: string;
@@ -21,10 +18,9 @@ interface Farmacia {
   address: string;
 }
 
-const Farmacias: React.FC = () => {
+const Detalhesfarmacia: React.FC = () => {
   const [farmacias, setFarmacias] = useState<Farmacia[]>([]);
-  const navigation = useNavigation();
-  
+
   useEffect(() => {
     fetch("https://api.lopscorp.com/farmacias").then((response) => {
       response.json().then((data) => {
@@ -47,7 +43,6 @@ const Farmacias: React.FC = () => {
                 <Text>{farmacia.address[2]}</Text>
                 <Text>{farmacia.phone}</Text>
               </View>
-              
             </View>
           )}
         />
@@ -80,4 +75,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Farmacias;
+export default Detalhesfarmacia;
