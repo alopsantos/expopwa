@@ -11,7 +11,7 @@ import {
 } from "react-native";
 
 interface Plantao {
-  id: string;
+  _id: string;
   name: string;
   phone: string;
   datainicio: string;
@@ -36,7 +36,7 @@ const Plantoes: React.FC = () => {
         <FlatList
           contentContainerStyle={{ padding: 24 }}
           data={plantao}
-          keyExtractor={(plantao) => plantao.id}
+          keyExtractor={(plantao) => plantao._id}
           renderItem={({ item: plantao }) => (
             <>
               <View style={styles.member}>

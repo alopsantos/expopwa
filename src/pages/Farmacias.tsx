@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { AntDesign } from "@expo/vector-icons";
 import {
   View,
   FlatList,
@@ -9,12 +10,30 @@ import {
   StatusBar,
   ScrollView,
   Button,
+  Modal,
+  TouchableOpacity,
 } from "react-native";
+import {
+  FontAwesome,
+  MaterialIcons,
+  MaterialCommunityIcons,
+} from "@expo/vector-icons";
+import {
+  WrapperTopModal,
+  HeaderModal,
+  ButtonCloseModal,
+  BodyModal,
+  ImagemList,
+  ImagemModalLogo,
+  Detalhes,
+  DetalheTxt,
+  DetalheName,
+} from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import Detalhesfarmacia from '../pages/Detalhesfarmacia';
+import Detalhesfarmacia from "../pages/Detalhesfarmacia";
 
 interface Farmacia {
-  id: string;
+  _id: string;
   name: string;
   urllogo: string;
   phone: string;
@@ -24,7 +43,17 @@ interface Farmacia {
 const Farmacias: React.FC = () => {
   const [farmacias, setFarmacias] = useState<Farmacia[]>([]);
   const navigation = useNavigation();
-  
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isOpenModal, setIsOpenModal] = useState(false);
+
+  const handleOpenModal = (farmacia: Farmacia) => {
+    setIsOpenModal(true);
+    setSelectedOption(farmacia._id);
+  };
+  const handleCloseModal = () => {
+    setIsOpenModal(false);
+  };
+
   useEffect(() => {
     fetch("https://api.lopscorp.com/farmacias").then((response) => {
       response.json().then((data) => {
@@ -33,26 +62,69 @@ const Farmacias: React.FC = () => {
     });
   }, []);
   return (
-    <ScrollView>
-      <SafeAreaView>
-        <FlatList
-          contentContainerStyle={{ padding: 24 }}
-          data={farmacias}
-          keyExtractor={(farmacia) => farmacia.id}
-          renderItem={({ item: farmacia }) => (
-            <View style={styles.member}>
-              <Image style={styles.image} source={{ uri: farmacia.urllogo }} />
-              <View>
-                <Text style={styles.name}>{farmacia.name}</Text>
-                <Text>{farmacia.address[2]}</Text>
-                <Text>{farmacia.phone}</Text>
+    <>
+      <ScrollView>
+        <SafeAreaView>
+          {farmacias.map((farmacia) => (
+            <TouchableOpacity
+              key={farmacia._id}
+              onPress={() => handleOpenModal(farmacia)}
+            >
+              <View style={styles.member}>
+                <ImagemList source={{ uri: farmacia.urllogo }} />
+                <View>
+                  <Text style={styles.name}>{farmacia.name}</Text>
+                  <Text>{farmacia.address[2]}</Text>
+                  <Text>{farmacia.phone}</Text>
+                </View>
               </View>
-              
-            </View>
-          )}
-        />
-      </SafeAreaView>
-    </ScrollView>
+
+              {selectedOption === farmacia._id ? (
+                <Modal visible={isOpenModal} animationType="slide">
+                  <WrapperTopModal>
+                    <HeaderModal>
+                      <ButtonCloseModal
+                        style={{ marginTop: 30 }}
+                        onPress={() => handleCloseModal()}
+                      >
+                        <AntDesign
+                          name="doubleleft"
+                          size={30}
+                          color="#4b5c6b"
+                        />
+                      </ButtonCloseModal>
+                    </HeaderModal>
+                    <BodyModal>
+                      <ImagemModalLogo source={{ uri: farmacia.urllogo }} />
+                      <Detalhes>
+                        <DetalheName>{farmacia.name}</DetalheName>
+
+                        <DetalheTxt>
+                          <MaterialCommunityIcons
+                            name="phone-classic"
+                            size={20}
+                          />
+                          Telefone: {farmacia.phone}
+                        </DetalheTxt>
+                        <DetalheTxt>
+                          <MaterialIcons name="location-on" size={24} />
+                          Endereço: {farmacia.address[0]}, {farmacia.address[1]}
+                        </DetalheTxt>
+                        <DetalheTxt>
+                          <MaterialIcons name="location-on" size={24} />
+                          Bairro: {farmacia.address[2]}
+                        </DetalheTxt>
+                        
+                      </Detalhes>
+                    </BodyModal>
+                  </WrapperTopModal>
+                </Modal>
+              ) : null}
+            </TouchableOpacity>
+          ))}
+        </SafeAreaView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -65,12 +137,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 20,
-  },
-  image: {
-    width: 100,
-    height: 100,
-    marginRight: 16,
-    borderRadius: 8,
   },
   name: {
     marginBottom: 8,

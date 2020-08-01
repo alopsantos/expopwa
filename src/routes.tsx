@@ -5,18 +5,18 @@ import {
   Entypo,
 } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { createStackNavigator } from "@react-navigation/stack";
-//import { NavigationContainer } from "@react-navigation/native";
+//import { createStackNavigator } from "@react-navigation/stack";
+import { NavigationContainer } from "@react-navigation/native";
 
-//import Farmacias from "./pages/Farmacias";
-//import Plantoes from "./pages/Plantoes";
-//import Plantao from "./pages/Plantao";
-import SignIn from "./pages/SignIn";
-import SignUp from "./pages/SignUp";
+import Farmacias from "./pages/Farmacias";
+import Plantoes from "./pages/Plantoes";
+import Plantao from "./pages/Plantao";
+//import SignIn from "./pages/SignIn";
+//import SignUp from "./pages/SignUp";
 
 const Tab = createBottomTabNavigator();
-const Auth = createStackNavigator();
-
+//const Auth = createStackNavigator();
+/*
 const AuthRoutes: React.FC = () => (
   <Auth.Navigator
     screenOptions={{
@@ -31,7 +31,7 @@ const AuthRoutes: React.FC = () => (
   </Auth.Navigator>
 );
 export default AuthRoutes;
-/*
+*/
 export default function Routes() {
   return (
     <NavigationContainer>
@@ -70,4 +70,4 @@ export default function Routes() {
       </Tab.Navigator>
     </NavigationContainer>
   );
-}*/
+}
